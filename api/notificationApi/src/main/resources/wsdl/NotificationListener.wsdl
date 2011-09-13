@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://notification.datasync.walker.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="NotificationListener" targetNamespace="http://notification.datasync.walker.org/">
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://notification.datasync.walker.org/" schemaLocation="NotificationListener.xsd"/>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="notifyResponse">
+		<wsdl:part name="parameters" element="tns:notifyResponse">
+    </wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="notify">
+		<wsdl:part name="parameters" element="tns:notify">
+    </wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="NotificationListener">
+		<wsdl:operation name="notify">
+			<wsdl:input name="notify" message="tns:notify">
+    </wsdl:input>
+			<wsdl:output name="notifyResponse" message="tns:notifyResponse">
+    </wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="NotificationListenerSoapBinding" type="tns:NotificationListener">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="notify">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="notify">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="notifyResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="NotificationListener">
+		<wsdl:port name="NotificationListenerPort" binding="tns:NotificationListenerSoapBinding">
+			<soap:address location="http://localhost:9090/NotificationListenerPort"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

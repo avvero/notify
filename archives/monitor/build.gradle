@@ -1,0 +1,33 @@
+apply plugin: 'ear'
+apply plugin: 'java'
+
+dependencies {
+    deploy project(':services:monitor')
+
+    earlib (project(':api:notificationApi')) {
+	    exclude group: 'org.apache.cxf'
+	    exclude group: 'commons-logging'
+	    exclude group: 'org.apache.neethi'
+	    exclude group: 'org.apache.ws.xmlschema'
+	    exclude group: 'wsdl4j'
+	    exclude group: 'org.apache.velocity'
+	    exclude group: 'xml-resolver'
+	    exclude group: 'com.sun.xml.bind'
+	    exclude group: 'com.sun.xml.bind'
+	    exclude group: 'oro'
+	    exclude group: 'commons-collections'
+	    exclude group: 'commons-lang'
+	    exclude group: 'org.apache.cxf.xjcplugins'
+	    exclude group: 'asm'
+	    exclude group: 'org.codehaus.groovy'
+	}
+
+}
+
+ear {
+    manifest {
+        attributes 'Dependencies': 'org.slf4j'
+    }
+}
+
+build.dependsOn ear

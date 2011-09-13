@@ -1,0 +1,39 @@
+allprojects {
+    apply plugin: 'idea'
+
+	repositories {
+	    mavenRepo urls:[
+	     "https://repository.jboss.org/nexus/content/groups/public/",
+	     "https://repository.jboss.org/nexus/content/groups/public-jboss/",
+	     "https://repository.jboss.org/nexus/content/groups/developer/"
+	    ]
+	   mavenCentral()
+	}
+	
+	env = System.getenv()
+	
+}
+
+configure(sourceProjects()) {
+    apply from: "$rootDir/gradle/source.gradle"
+}
+
+configure(ejbProjects()) {
+   apply from: "$rootDir/gradle/ejb.gradle"
+}
+
+configure (wsdl2javaProjects()) {
+   apply from: "$rootDir/gradle/wsdl2java.gradle"
+}
+
+def wsdl2javaProjects() {
+    subprojects.findAll {['notificationApi'].contains it.name}
+}
+
+def sourceProjects() {
+    subprojects.findAll {![':api', ':integration', ':services', ':archives', ':archives:monitor', ':archives:notification'].contains(it.path)} 
+}
+
+def ejbProjects() {
+    subprojects.findAll {[':services:persistence', ':services:notification', ':services:monitor'].contains it.path} 
+}

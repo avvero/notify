@@ -1,0 +1,12 @@
+
+dependencies {
+    compile project(':api:notificationApi')
+}
+
+jar {
+    metaInf {
+        from project(':api:notificationApi').sourceSets.main.resources.findAll {it.name.endsWith('.wsdl')}
+        from project(':api:notificationApi').sourceSets.main.resources.findAll {it.name.endsWith('.xsd')}
+        into 'wsdl'
+    }
+}

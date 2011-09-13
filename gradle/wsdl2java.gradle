@@ -1,0 +1,74 @@
+cxfDependencies = [
+    'org.apache.cxf:apache-cxf:2.4.1',
+    'commons-logging:commons-logging:1.1.1@jar',
+    'org.apache.neethi:neethi:3.0.0@jar',
+    'org.apache.ws.xmlschema:xmlschema-core:2.0@jar',
+    'wsdl4j:wsdl4j:1.6.2@jar',
+    'org.apache.velocity:velocity:1.6.4@jar',
+    'xml-resolver:xml-resolver:1.2@jar',
+    'com.sun.xml.bind:jaxb-xjc:2.2@jar',
+    'com.sun.xml.bind:jaxb-impl:2.2@jar',
+    'oro:oro:2.0.8@jar',
+    'commons-collections:commons-collections:3.2.1@jar',
+    'commons-lang:commons-lang:2.6@jar',
+    'org.apache.cxf.xjcplugins:cxf-xjc-boolean:2.3.2@jar',
+    'org.apache.cxf.xjcplugins:cxf-xjc-bug671:2.3.2@jar',
+    'org.apache.cxf.xjcplugins:cxf-xjc-dv:2.3.2@jar',
+    'org.apache.cxf.xjcplugins:cxf-xjc-ts:2.3.2@jar',
+    'asm:asm:3.3@jar'
+]
+
+configurations {
+    wsdlDeps
+}
+
+sourceSets {
+    genSrc {
+        java {
+            srcDir 'src/genSrc/java'
+        }
+    }
+}
+
+dependencies {
+    wsdlDeps cxfDependencies
+    compile cxfDependencies
+}
+
+wsdlDir = file("src/main/resources/wsdl")
+
+wsdlDir.eachFile {
+	if (it.name.endsWith('.wsdl')) {
+	    wsdlFile = it
+	} else if (it.name.endsWith('binding.xml')) {
+		bindingFile = it
+	}
+}
+
+generatedWsdlDir = file("src/genSrc/java")
+task wsdl2Java(type: JavaExec) {  
+    outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()  
+    inputs.files configurations.compile, wsdlFile
+    outputs.files generatedWsdlDir
+    main = 'org.apache.cxf.tools.wsdlto.WSDLToJava'
+    classpath = configurations.wsdlDeps
+    args '-d', generatedWsdlDir,
+		 '-b', bindingFile,
+         '-xjc-Xts',
+         wsdlFile
+}
+
+compileGenSrcJava.dependsOn wsdl2Java
+clean.dependsOn cleanWsdl2Java
+jar.dependsOn genSrcClasses
+
+jar {
+    from project.sourceSets.genSrc.output
+
+}
+
+idea {
+	module {
+		sourceDirs += sourceSets.genSrc.java.srcDirs
+	}
+}

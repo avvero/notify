@@ -1,0 +1,11 @@
+dependencies {
+        compile ('org.hibernate:hibernate-jpamodelgen:1.1.1.Final') {
+           exclude module: 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api'
+		}
+		compile 'org.jboss.seam.solder:seam-solder:3.0.0.Final'
+		compile ('org.hibernate:hibernate-validator:4.1.0.Final') {
+		   exclude module: 'org.slf4j:slf4j-api'
+		}
+		compile 'org.jboss.spec:jboss-javaee-web-6.0:2.0.0.Final'
+        compile 'org.jboss.spec.javax.jms:jboss-jms-api_1.1_spec:1.0.0.Final'
+}
