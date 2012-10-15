@@ -1,0 +1,9 @@
+build
+.gradle
+.project
+.settings
+.classpath
+bin
+tmp
+target
+.sonar

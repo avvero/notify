@@ -1,17 +1,13 @@
 allprojects {
     apply plugin: 'idea'
 
-	repositories {
-	    mavenRepo urls:[
-	     "https://repository.jboss.org/nexus/content/groups/public/",
-	     "https://repository.jboss.org/nexus/content/groups/public-jboss/",
-	     "https://repository.jboss.org/nexus/content/groups/developer/"
-	    ]
-	   mavenCentral()
-	}
-	
-	env = System.getenv()
-	
+    repositories {
+        maven { url "http://repo1.maven.org/maven2" }
+        maven { url "https://repository.jboss.org/nexus/content/groups/public-jboss/" }
+        maven { url "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases" }
+    }
+    
+    
 }
 
 configure(sourceProjects()) {
